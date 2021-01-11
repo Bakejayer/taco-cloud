@@ -6,10 +6,12 @@ import com.bayer.tacocloud.model.Taco;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,14 +41,18 @@ public class DesignTacoController {
                     filterByType(ingredients, type));
         }
 
-        model.addAttribute("design", new Taco());
+        model.addAttribute("tacoDesign", new Taco());
         return "design";
     }
 
     @PostMapping
-    public String processDesign(Taco design){
+    public String processDesign(@Valid Taco tacoDesign, Errors errors){
+        if(errors.hasErrors()){
+            log.info("errors found, returning to design page");
+            return "design";
+        }
         //save the taco design
-        log.info("Processing design: " + design);
+        log.info("Processing design: " + tacoDesign);
 
         return "redirect:/orders/current";
     }

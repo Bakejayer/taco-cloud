@@ -1,12 +1,7 @@
 package com.bayer.tacocloud.repositiory;
 
 import com.bayer.tacocloud.model.Ingredient;
+import org.springframework.data.repository.CrudRepository;
 
-public interface IngredientRepository {
-
-    Iterable<Ingredient> findAll();
-
-    Ingredient findOne(String id);
-
-    Ingredient Save(Ingredient ingredient);
+public interface IngredientRepository extends CrudRepository<Ingredient, String> {
 }
